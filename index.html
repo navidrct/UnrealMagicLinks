@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Redirecting...</title>
+</head>
+<body>
+
+<p>Redirecting...</p>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("course");
+
+fetch("../courses.json")
+.then(r => r.json())
+.then(data => {
+
+    if(data[id]){
+
+        window.location.replace(data[id]);
+
+    }else{
+
+        document.body.innerHTML="<h2>Course not found.</h2>";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
