@@ -1,31 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Redirecting...</title>
+
+<style>
+
+body{
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#0b1020;
+    color:white;
+    font-family:Arial;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<p>Redirecting...</p>
+<h2>Redirecting...</h2>
 
 <script>
 
 const params = new URLSearchParams(window.location.search);
-const id = params.get("course");
 
-fetch("../courses.json")
-.then(r => r.json())
-.then(data => {
+const id = params.get("id");
 
-    if(data[id]){
+fetch("./courses.json")
+.then(response => response.json())
+.then(courses => {
 
-        window.location.replace(data[id]);
+    const course = courses.find(c => c.id === id);
 
-    }else{
+    if(course){
+
+        window.location.replace(course.url);
+
+    }
+    else{
 
         document.body.innerHTML="<h2>Course not found.</h2>";
 
     }
+
+})
+.catch(error=>{
+
+    document.body.innerHTML="<h2>Unable to load courses.json</h2>";
+
+    console.error(error);
 
 });
 
